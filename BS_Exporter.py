@@ -60,26 +60,6 @@ class BAKINGSUPPLY_ExportLow(bpy.types.Operator):
  
 
 
-class CustomPanel(bpy.types.Panel):
-    bl_label = "High and Low exporter"
-    bl_idname = "OBJECT_PT_custom_panel"
-    bl_space_type = 'VIEW_3D'
-    bl_region_type = 'UI'
-    bl_category = 'Custom Addon'
-
-    def draw(self, context):
-        layout = self.layout
-        scene = context.scene
-
-        # Display the "Appelation" variable
-        layout.prop(scene, "appelation")
-
-
-
-        # Add the export button
-        layout.operator("object.export_selected_operator_high", text="Export High")
-        layout.operator("object.export_selected_operator_low", text="Export low")
-
 
 
 Classes = (

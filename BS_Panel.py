@@ -39,6 +39,10 @@ class BAKINGSUPPLY_Panel(bpy.types.Panel):
         row.operator("object.export_selected_operator_high", text="Export High")
         row.operator("object.export_selected_operator_low", text="Export Low")
 
+        row = layout.row()
+        row.label(text="Custom File Path:")
+        row.prop(scene, "mesh_path")
+
 classes = (
     BAKINGSUPPLY_Panel,
 )

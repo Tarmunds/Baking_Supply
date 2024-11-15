@@ -10,8 +10,8 @@ bl_info = {
     "blender": (4, 0, 0),
     "location": "View3D > Tool Shelf > Baking Supply",
     "description": "Tools to easily manage baking workflows between baking software and Blender",
-    "wiki_url": "https://github.com/your_username/baking_supply",  # Update to your actual URL
-    "tracker_url": "https://github.com/your_username/baking_supply/issues",  # Update to your actual URL
+    "wiki_url": "https://github.com/Tarmunds/Baking_Supply",  # Update to your actual URL
+    "tracker_url": "https://github.com/Tarmunds/Baking_Supply/issues",  # Update to your actual URL
     "category": "Object",
 }
 
