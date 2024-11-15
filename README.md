@@ -1,12 +1,25 @@
-Hey this is a little addon made on blender for ease the baking worflow, with back and forth beteween your baking software and blender.
+# Baking Supply Addon for Blender
 
-this is under the gnu3 licence
+Welcome to **Baking Supply**, a small but powerful Blender addon designed to streamline your baking workflow by simplifying the back-and-forth process between Blender and your baking software. This addon is released under the GNU General Public License v3.
 
+### Features
 
-the use is quite simple :
+- **Hide Low/High Meshes**: Automatically detect and hide all meshes with `_low` or `_high` in their names, depending on the button you click.
+- **Show Low/High Meshes**: Easily bring back visibility for low or high meshes with a single click.
+- **Export Meshes**: Export all visible meshes marked with `_high` or `_low` to the location of your Blender file, using a name that you can set directly in the panel.
+- **Custom Export Path**: You can also define a custom path for exporting. If left empty, the addon will export the files to the same location as your Blender file.
 
-    - Hide low/high will detect all the current mesh with the _low or _high depending of the buttons, and Hide them
-    - Show low/high will do the same, and Show them
+### How to Use
+1. **Hide/Show Meshes**: Use the Hide/Show buttons to quickly adjust the visibility of high and low meshes for easier navigation and manipulation.
+2. **Exporting Meshes**: Enter a name in the panel, then use the export buttons to save all visible high or low meshes. Specify a custom path if needed.
 
-    - the export buttons will export all visible meshes with _high / _low and export them as the location of the blend files with the naming you can provide on the panel
-    - in the export option you can setup a custom path, if empty, it will export at the blend file location
+### License
+This addon is licensed under the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html), meaning it is free to use, modify, and distribute.
+
+### Contributing and Feedback
+We are always open to suggestions for new tools or modifications. Feel free to join our community on [Discord](https://discord.gg/h39W5s5ZbQ) to share your ideas and feedback.
+
+Happy baking!
+
+— Tarmunds
+
