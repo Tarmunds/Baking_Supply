@@ -11,7 +11,7 @@ class BAKINGSUPPLY_ShowLow(bpy.types.Operator):
     def execute(self, context):
         for obj in bpy.data.objects:
             if "_low" in obj.name:
-                obj.hide_viewport = False
+                obj.hide_set(False)
         return {'FINISHED'}
 
 
@@ -24,7 +24,7 @@ class BAKINGSUPPLY_HideLow(bpy.types.Operator):
     def execute(self, context):
         for obj in bpy.data.objects:
             if "_low" in obj.name:
-                obj.hide_viewport = True
+                obj.hide_set(True)
         return {'FINISHED'}
 
 
@@ -37,7 +37,7 @@ class BAKINGSUPPLY_ShowHigh(bpy.types.Operator):
     def execute(self, context):
         for obj in bpy.data.objects:
             if "_high" in obj.name:
-                obj.hide_viewport = False
+                obj.hide_set(False)
         return {'FINISHED'}
 
 
@@ -50,7 +50,7 @@ class BAKINGSUPPLY_HideHigh(bpy.types.Operator):
     def execute(self, context):
         for obj in bpy.data.objects:
             if "_high" in obj.name:
-                obj.hide_viewport = True
+                obj.hide_set(True)
         return {'FINISHED'}
 
 class BAKINGSUPPLY_Panel(bpy.types.Panel):
