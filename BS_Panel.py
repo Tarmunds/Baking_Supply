@@ -31,7 +31,7 @@ class BAKINGSUPPLY_Panel(bpy.types.Panel):
         row.scale_y = 1
         # Display the "Appelation" variable
         row.label(text="Name for the files :")
-        row.prop(scene, "appelation")
+        row.prop(scene, "appelation", text="")
 
         row = layout.row()
         row.scale_y = 1.5
@@ -39,9 +39,28 @@ class BAKINGSUPPLY_Panel(bpy.types.Panel):
         row.operator("object.export_selected_operator_high", text="Export High")
         row.operator("object.export_selected_operator_low", text="Export Low")
 
-        row = layout.row()
-        row.label(text="Custom File Path:")
-        row.prop(scene, "mesh_path")
+
+        # Separator
+        self.layout.row().separator()
+ 
+        # Preprocess and Unprocess Drop-down Menu
+        col = self.layout.column()
+        if not context.scene.show_path_options:
+            row = col.row()
+            row.prop(context.scene, "show_path_options", icon='TRIA_RIGHT', text="", emboss=False, toggle=True)
+            row.label(text="Path Options")
+        else:
+            box = self.layout.box()
+            row = box.row()
+            row.prop(context.scene, "show_path_options", icon='TRIA_DOWN', text="", emboss=False, toggle=True)
+            row.label(text="Path Options")
+
+            row = box.row()
+            row.scale_y = 1
+            row = layout.row()
+            row.label(text="Custom File Path:")
+            row = layout.row()
+            row.prop(scene, "mesh_path", text="")
 
 classes = (
     BAKINGSUPPLY_Panel,

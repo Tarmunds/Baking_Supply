@@ -6,7 +6,7 @@ from . import BS_Exporter
 bl_info = {
     "name": "Baking Supply",
     "author": "Tarmunds",
-    "version": (1, 0),
+    "version": (2, 0),
     "blender": (4, 0, 0),
     "location": "View3D > Tool Shelf > Baking Supply",
     "description": "Tools to easily manage baking workflows between baking software and Blender",
@@ -33,11 +33,19 @@ def register():
         default="",
         description="Name for FBX file"
     )
+    bpy.types.Scene.mesh_path = bpy.props.StringProperty(name="Path", default="")
+    bpy.types.Scene.show_path_options = bpy.props.BoolProperty(
+    name="Show Path Options",
+    description="Toggle the display of export path options",
+    default=False
+    )
 
 def unregister():
     for c in reversed(classes):
         bpy.utils.unregister_class(c)
     del bpy.types.Scene.appelation
+    del bpy.types.Scene.mesh_path
+    del bpy.types.Scene.show_path_options
 
 if __name__ == '__main__':
     register()

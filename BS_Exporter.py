@@ -1,15 +1,15 @@
 import bpy
 import os
 
-
 class BAKINGSUPPLY_ExportHigh(bpy.types.Operator):
     bl_idname = "object.export_selected_operator_high"
-    bl_label = "Export Selected high"
+    bl_label = "Export Selected High"
 
     def execute(self, context):
         scene = context.scene
         selected_objects = []
 
+        # Select objects with "_high" in their names
         for obj in bpy.data.objects:
             if obj.select_get() and "high" in obj.name:
                 selected_objects.append(obj)
@@ -20,24 +20,47 @@ class BAKINGSUPPLY_ExportHigh(bpy.types.Operator):
             self.report({'WARNING'}, "No objects selected with 'high' in their names.")
             return {'CANCELLED'}
 
-        blend_filepath = bpy.data.filepath
-        blend_dir = os.path.dirname(blend_filepath)
+        # Ensure the appellation property is set
+        if not scene.appelation.strip():
+            self.report({'ERROR'}, "Appellation cannot be empty. Please provide a name.")
+            return {'CANCELLED'}
 
-        export_filename = scene.appelation + "_high.fbx"
-        export_path = os.path.join(blend_dir, export_filename)
+        # Determine the export path
+        if len(scene.mesh_path.strip()) == 0:
+            # If mesh_path is not set, use the blend file directory
+            blend_filepath = bpy.data.filepath
+            blend_dir = os.path.dirname(blend_filepath)
+            export_filename = scene.appelation + "_high.fbx"
+            export_path = os.path.join(blend_dir, export_filename)
+        else:
+            # Use the specified mesh_path
+            export_path = os.path.join(scene.mesh_path, scene.appelation + "_high.fbx")
 
-        bpy.ops.export_scene.fbx(filepath=export_path, use_selection=True)
+        # Check if the directory exists
+        export_dir = os.path.dirname(export_path)
+        if not os.path.exists(export_dir):
+            self.report({'ERROR'}, f"Directory does not exist: {export_dir}")
+            return {'CANCELLED'}
 
+        # Export to FBX
+        try:
+            bpy.ops.export_scene.fbx(filepath=export_path, use_selection=True)
+        except PermissionError:
+            self.report({'ERROR'}, f"Permission denied: Unable to write to {export_path}. Please check the file path.")
+            return {'CANCELLED'}
+
+        self.report({'INFO'}, f"Exported successfully to: {export_path}")
         return {'FINISHED'}
-    
+
 class BAKINGSUPPLY_ExportLow(bpy.types.Operator):
     bl_idname = "object.export_selected_operator_low"
-    bl_label = "Export Selected low"
+    bl_label = "Export Selected Low"
 
     def execute(self, context):
         scene = context.scene
         selected_objects = []
 
+        # Select objects with "_low" in their names
         for obj in bpy.data.objects:
             if obj.select_get() and "low" in obj.name:
                 selected_objects.append(obj)
@@ -48,30 +71,50 @@ class BAKINGSUPPLY_ExportLow(bpy.types.Operator):
             self.report({'WARNING'}, "No objects selected with 'low' in their names.")
             return {'CANCELLED'}
 
-        blend_filepath = bpy.data.filepath
-        blend_dir = os.path.dirname(blend_filepath)
+        # Ensure the appellation property is set
+        if not scene.appelation.strip():
+            self.report({'ERROR'}, "Appellation cannot be empty. Please provide a name.")
+            return {'CANCELLED'}
 
-        export_filename = scene.appelation + "_low.fbx"
-        export_path = os.path.join(blend_dir, export_filename)
+        # Determine the export path
+        if len(scene.mesh_path.strip()) == 0:
+            # If mesh_path is not set, use the blend file directory
+            blend_filepath = bpy.data.filepath
+            blend_dir = os.path.dirname(blend_filepath)
+            export_filename = scene.appelation + "_low.fbx"
+            export_path = os.path.join(blend_dir, export_filename)
+        else:
+            # Use the specified mesh_path
+            export_path = os.path.join(scene.mesh_path, scene.appelation + "_low.fbx")
 
-        bpy.ops.export_scene.fbx(filepath=export_path, use_selection=True)
+        # Check if the directory exists
+        export_dir = os.path.dirname(export_path)
+        if not os.path.exists(export_dir):
+            self.report({'ERROR'}, f"Directory does not exist: {export_dir}")
+            return {'CANCELLED'}
 
+        # Export to FBX
+        try:
+            bpy.ops.export_scene.fbx(filepath=export_path, use_selection=True)
+        except PermissionError:
+            self.report({'ERROR'}, f"Permission denied: Unable to write to {export_path}. Please check the file path.")
+            return {'CANCELLED'}
+
+        self.report({'INFO'}, f"Exported successfully to: {export_path}")
         return {'FINISHED'}
- 
-
-
-
 
 Classes = (
     BAKINGSUPPLY_ExportLow,
-    BAKINGSUPPLY_ExportHigh
+    BAKINGSUPPLY_ExportHigh,
 )
 
 def register():
     for c in Classes:
         bpy.utils.register_class(c)
 
-
 def unregister():
     for c in reversed(Classes):
         bpy.utils.unregister_class(c)
+
+if __name__ == "__main__":
+    register()
