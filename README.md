@@ -6,7 +6,7 @@ Welcome to **Baking Supply**, a small but powerful Blender addon designed to str
 
 - **Hide Low/High Meshes**: Automatically detect and hide all meshes with `_low` or `_high` in their names, depending on the button you click.
 - **Show Low/High Meshes**: Easily bring back visibility for low or high meshes with a single click.
-- **Export Meshes**: Export all visible meshes marked with `_high` or `_low` to the location of your Blender file, using a name that you can set directly in the panel.
+- **Export Meshes**: Export all selected meshes marked with `_high` or `_low` to the location of your Blender file, using a name that you can set directly in the panel.
 - **Custom Export Path**: You can also define a custom path for exporting. If left empty, the addon will export the files to the same location as your Blender file.
 
 ### How to Use

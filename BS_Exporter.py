@@ -9,6 +9,9 @@ class BAKINGSUPPLY_ExportHigh(bpy.types.Operator):
         scene = context.scene
         selected_objects = []
 
+        # Store the original selection state
+        original_selection = [obj for obj in bpy.data.objects if obj.select_get()]
+
         # Select objects with "_high" in their names
         for obj in bpy.data.objects:
             if obj.select_get() and "high" in obj.name:
@@ -49,6 +52,10 @@ class BAKINGSUPPLY_ExportHigh(bpy.types.Operator):
             self.report({'ERROR'}, f"Permission denied: Unable to write to {export_path}. Please check the file path.")
             return {'CANCELLED'}
 
+        # Restore the original selection state
+        for obj in bpy.data.objects:
+            obj.select_set(obj in original_selection)
+
         self.report({'INFO'}, f"Exported successfully to: {export_path}")
         return {'FINISHED'}
 
@@ -59,6 +66,9 @@ class BAKINGSUPPLY_ExportLow(bpy.types.Operator):
     def execute(self, context):
         scene = context.scene
         selected_objects = []
+
+        # Store the original selection state
+        original_selection = [obj for obj in bpy.data.objects if obj.select_get()]
 
         # Select objects with "_low" in their names
         for obj in bpy.data.objects:
@@ -99,6 +109,10 @@ class BAKINGSUPPLY_ExportLow(bpy.types.Operator):
         except PermissionError:
             self.report({'ERROR'}, f"Permission denied: Unable to write to {export_path}. Please check the file path.")
             return {'CANCELLED'}
+
+        # Restore the original selection state
+        for obj in bpy.data.objects:
+            obj.select_set(obj in original_selection)
 
         self.report({'INFO'}, f"Exported successfully to: {export_path}")
         return {'FINISHED'}
