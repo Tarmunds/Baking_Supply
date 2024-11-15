@@ -17,12 +17,12 @@ class BAKINGSUPPLY_Panel(bpy.types.Panel):
         row.label(text="Visibility :")
 
         row1 = box.row()
-        row1.operator("object.show_low_meshes", text="Show Low")
+        row1.operator("object.hide_high_meshes", text="Hide High")
         row1.operator("object.hide_low_meshes", text="Hide Low")
 
         sub_row = box.row()
         sub_row.operator("object.show_high_meshes", text="Show High")
-        sub_row.operator("object.hide_high_meshes", text="Hide High")
+        sub_row.operator("object.show_low_meshes", text="Show Low")
 
         # Separator
         self.layout.row().separator()
@@ -50,17 +50,19 @@ class BAKINGSUPPLY_Panel(bpy.types.Panel):
             row.prop(context.scene, "show_path_options", icon='TRIA_RIGHT', text="", emboss=False, toggle=True)
             row.label(text="Path Options")
         else:
-            box = self.layout.box()
+            # Expanded box for Path Options
+            box = layout.box()
             row = box.row()
             row.prop(context.scene, "show_path_options", icon='TRIA_DOWN', text="", emboss=False, toggle=True)
             row.label(text="Path Options")
 
-            row = box.row()
-            row.scale_y = 1
-            row = layout.row()
-            row.label(text="Custom File Path:")
-            row = layout.row()
-            row.prop(scene, "mesh_path", text="")
+            # Custom File Path inside the same box
+            row1 = box.row()
+            row1.scale_y = 1
+            row1.label(text="Custom File Path:")
+            
+            row2 = box.row()
+            row2.prop(scene, "mesh_path", text="")
 
 classes = (
     BAKINGSUPPLY_Panel,
