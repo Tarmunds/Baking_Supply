@@ -14,7 +14,7 @@ This addon is released under the GNU General Public License v3.
 - **Switch Suffix (`_high` <> `_low`)**: Quickly switch between `_high` and `_low` suffixes for selected objects, making it easy to manage naming conventions during your workflow.
 - **Add Suffix (`_high` or `_low`)**: Add a `_high` or `_low` suffix to selected mesh objects to ensure they follow the correct naming convention.
 - **Transfer Names**: Transfer the name from an active `_high` object to other selected objects, replacing `_high` with `_low` for consistent naming.
-- **Export Meshes**: Export all visible meshes marked with `_high` or `_low` to the location of your Blender file, using a name that you can set directly in the panel. After exporting, the original selection will be restored.
+- **Export Meshes**: Export all the selected meshes marked with `_high` or `_low` to the location of your Blender file (or other path if setup), using a name that you can set directly in the panel.
 - **Custom Export Path**: You can also define a custom path for exporting. If left empty, the addon will export the files to the same location as your Blender file.
 
 
