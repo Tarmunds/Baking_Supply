@@ -33,7 +33,7 @@ This addon is released under the GNU General Public License v3.
 3. **Add Suffix**: Select the objects and use the `Add _high` or `Add _low` buttons to add the respective suffix to the selected meshes.
 4. **Transfer Names**: Select a `_high` object as the active object, along with other target objects, and use the `Transfer Name` button to give them consistent `_low` names.
 ![Name Operator](https://github.com/Tarmunds/Baking_Supply/blob/main/Images/Name_Operator.gif)
-5. **Exporting Meshes**: Enter a name in the panel, then use the export buttons to save all visible high or low meshes. Specify a custom path if needed. After the export, the original selection will be restored.
+5. **Exporting Meshes**: Enter a name in the panel, then use the export buttons to save all visible high or low meshes. Specify a custom path if needed. After the export. This is super useful when you're itering with the lowpoly to go back and forth with Marmoset.
 ![Export](https://github.com/Tarmunds/Baking_Supply/blob/main/Images/Export.gif)
 
 ### Learn more about bakin ?
