@@ -5,12 +5,22 @@ Welcome to **Baking Supply**, a small but powerful Blender addon designed to str
 ### Features
 
 - **Hide Low/High Meshes**: Automatically detect and hide all meshes with `_low` or `_high` in their names, depending on the button you click.
+
+    ![Hide / Show High or Low](images/Show_Hide.gif)
+
 - **Show Low/High Meshes**: Easily bring back visibility for low or high meshes with a single click.
 - **Export Meshes**: Export all visible meshes marked with `_high` or `_low` to the location of your Blender file, using a name that you can set directly in the panel. After exporting, the original selection will be restored.
 - **Custom Export Path**: You can also define a custom path for exporting. If left empty, the addon will export the files to the same location as your Blender file.
 - **Switch Suffix (`_high` <> `_low`)**: Quickly switch between `_high` and `_low` suffixes for selected objects, making it easy to manage naming conventions during your workflow.
 - **Add Suffix (`_high` or `_low`)**: Add a `_high` or `_low` suffix to selected mesh objects to ensure they follow the correct naming convention.
 - **Transfer Names**: Transfer the name from an active `_high` object to other selected objects, replacing `_high` with `_low` for consistent naming.
+
+### How to Install
+1. **Download the Addon**: Download the latest version of the addon as a `.zip` file from the [GitHub repository](https://github.com/your_username/baking_supply).
+2. **Open Blender**: Open Blender and go to `Edit > Preferences > Add-ons`.
+3. **Install the Addon**: Click on `Install...`, navigate to the downloaded `.zip` file, and select it.
+4. **Activate the Addon**: Once installed, find the `Baking Supply` addon in the list and check the box to activate it.
+5. **Access the Panel**: You can find the addon panel in the 3D View under the `Tarmunds Addons` tab.
 
 ### How to Use
 1. **Hide/Show Meshes**: Use the Hide/Show buttons to quickly adjust the visibility of high and low meshes for easier navigation and manipulation.
