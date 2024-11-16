@@ -19,7 +19,8 @@ This addon is released under the GNU General Public License v3.
 
 
 ### How to Install
-1. **Download the Addon**: Download the latest version of the addon as a `.zip` file from the [GitHub repository](https://github.com/Tarmunds/baking_supply).
+1. **Download the Addon**: Download the latest version of the addon as a `.zip` file from the [GitHub repository](https://github.com/Tarmunds/baking_supply). 
+  (Top right green drop down menu with code > download zip)
 2. **Open Blender**: Open Blender and go to `Edit > Preferences > Add-ons`.
 3. **Install the Addon**: Click on `Install...`, navigate to the downloaded `.zip` file, and select it.
 4. **Activate the Addon**: Once installed, find the `Baking Supply` addon in the list and check the box to activate it.
