@@ -2,13 +2,14 @@
 
 Welcome to **Baking Supply**, a small but powerful Blender addon designed to streamline your baking workflow by simplifying the back-and-forth process between Blender and your baking software. This addon is released under the GNU General Public License v3.
 
-![Baking Supply Pannel](images/Panel.png)
+![Baking Supply Panel](https://github.com/Tarmunds/Baking_Supply/blob/main/Images/Panel.png)
 
 ### Features
 
 - **Hide Low/High Meshes**: Automatically detect and hide all meshes with `_low` or `_high` in their names, depending on the button you click.
 
-![Hide / Show High or Low](images/Show_Hide.gif)
+![Hide/Show High or Low](https://github.com/Tarmunds/Baking_Supply/blob/main/Images/Show_Hide.gif)
+
 
 - **Show Low/High Meshes**: Easily bring back visibility for low or high meshes with a single click.
 - **Export Meshes**: Export all visible meshes marked with `_high` or `_low` to the location of your Blender file, using a name that you can set directly in the panel. After exporting, the original selection will be restored.
