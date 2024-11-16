@@ -1,6 +1,7 @@
 # Baking Supply Addon for Blender
 
 Welcome to **Baking Supply**, a small but powerful Blender addon designed to streamline your baking workflow by simplifying the back-and-forth process between Blender and your baking software. 
+
 This addon was designed with the use of the [Quick Loader feature of Marmoset Toolbag](https://docs.marmoset.co/docs/baking-attributes/), but can be use with any other baking software.
 This addon is released under the GNU General Public License v3.
 
