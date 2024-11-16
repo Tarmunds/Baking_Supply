@@ -23,16 +23,18 @@ if "bpy" in locals():
     importlib.reload(BS_Panel)
     importlib.reload(BS_Visibility)
     importlib.reload(BS_Exporter)
+    importlib.reload(BS_Namer)
 
 import bpy
 from . import BS_Panel
 from . import BS_Visibility
 from . import BS_Exporter
+from . import BS_Namer
 
 bl_info = {
     "name": "Baking Supply",
     "author": "Tarmunds",
-    "version": (2, 0),
+    "version": (2, 5),
     "blender": (4, 0, 0),
     "location": "View3D > Tool Shelf > Baking Supply",
     "description": "Tools to easily manage baking workflows between baking software and Blender",
@@ -48,6 +50,9 @@ classes = (
     BS_Visibility.BAKINGSUPPLY_HideHigh,
     BS_Exporter.BAKINGSUPPLY_ExportLow,
     BS_Exporter.BAKINGSUPPLY_ExportHigh,
+    BS_Namer.BAKINGSUPPLY_SwitchSuffix,
+    BS_Namer.BAKINGSUPPLY_AddSuffix,
+    BS_Namer.BAKINGSUPPLY_TransferName,
     BS_Panel.BAKINGSUPPLY_Panel,
 )
 

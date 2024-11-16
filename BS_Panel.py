@@ -26,6 +26,19 @@ class BAKINGSUPPLY_Panel(bpy.types.Panel):
 
         # Separator
         self.layout.row().separator()
+
+        col = layout.column(align=True)
+        row = layout.row()
+        row = col.row(align=True)
+        row.operator("object.rename_objects", text="Add _high").rename_type = "high"
+        row.operator("object.add_suffix", text="Add _low").rename_type = "low"
+
+        col.operator("object.switch_suffix", text="High <> Low")
+        col.operator("object.transfer_name", text="Transfer Name")
+
+
+        # Separator
+        self.layout.row().separator()
         
         row = layout.row()
         row.scale_y = 1
@@ -63,6 +76,7 @@ class BAKINGSUPPLY_Panel(bpy.types.Panel):
             
             row2 = box.row()
             row2.prop(scene, "mesh_path", text="")
+
 
 classes = (
     BAKINGSUPPLY_Panel,
