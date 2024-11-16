@@ -35,8 +35,14 @@ This addon is released under the GNU General Public License v3.
 5. **Exporting Meshes**: Enter a name in the panel, then use the export buttons to save all visible high or low meshes. Specify a custom path if needed. After the export, the original selection will be restored.
 ![Export](https://github.com/Tarmunds/Baking_Supply/blob/main/Images/Export.gif)
 
+### Learn more about bakin ?
+If you're interested i made a tutorial to get a correct bake using marmoset toolbag, you can find it [here on my website](https://www.tarmunds.com/post/how-to-get-a-clean-bake)
+![How to get a clean bake](https://static.wixstatic.com/media/6f5aea_1e42e84277704eac95f69953f4f3add5~mv2.png/v1/fill/w_1110,h_624,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/6f5aea_1e42e84277704eac95f69953f4f3add5~mv2.png)
+
+
 ### License
 This addon is licensed under the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html), meaning it is free to use, modify, and distribute.
+Concept of the dagger by Baldi Konjin, you can find it [here](https://www.artstation.com/artwork/Le2Dl0)
 
 ### Contributing and Feedback
 We are always open to suggestions for new tools or modifications. Feel free to join our community on [Discord](https://discord.gg/h39W5s5ZbQ) to share your ideas and feedback.
