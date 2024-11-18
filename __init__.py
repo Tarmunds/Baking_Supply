@@ -34,7 +34,7 @@ from . import BS_Namer
 bl_info = {
     "name": "Baking Supply",
     "author": "Tarmunds",
-    "version": (2, 5),
+    "version": (2, 6),
     "blender": (4, 0, 0),
     "location": "View3D > Tool Shelf > Baking Supply",
     "description": "Tools to easily manage baking workflows between baking software and Blender",

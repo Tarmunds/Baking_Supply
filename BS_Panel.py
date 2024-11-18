@@ -30,7 +30,7 @@ class BAKINGSUPPLY_Panel(bpy.types.Panel):
         col = layout.column(align=True)
         row = layout.row()
         row = col.row(align=True)
-        row.operator("object.rename_objects", text="Add _high").rename_type = "high"
+        row.operator("object.add_suffix", text="Add _high").rename_type = "high"
         row.operator("object.add_suffix", text="Add _low").rename_type = "low"
 
         col.operator("object.switch_suffix", text="High <> Low")
