@@ -34,12 +34,12 @@ from . import BS_Namer
 bl_info = {
     "name": "Baking Supply",
     "author": "Tarmunds",
-    "version": (2, 6),
+    "version": (2, 7),
     "blender": (4, 0, 0),
     "location": "View3D > Tool Shelf > Baking Supply",
     "description": "Tools to easily manage baking workflows between baking software and Blender",
-    "wiki_url": "https://github.com/Tarmunds/Baking_Supply",  # Update to your actual URL
-    "tracker_url": "https://github.com/Tarmunds/Baking_Supply/issues",  # Update to your actual URL
+    "wiki_url": "https://github.com/Tarmunds/Baking_Supply", 
+    "tracker_url": "https://github.com/Tarmunds/Baking_Supply/issues",  
     "category": "Object",
 }
 
@@ -64,7 +64,7 @@ def register():
         default="",
         description="Name for FBX file"
     )
-    bpy.types.Scene.mesh_path = bpy.props.StringProperty(name="Path", default="")
+    bpy.types.Scene.mesh_path = bpy.props.StringProperty(name="Path", default="", maxlen=1024, subtype='DIR_PATH')
     bpy.types.Scene.show_path_options = bpy.props.BoolProperty(
     name="Show Path Options",
     description="Toggle the display of export path options",
