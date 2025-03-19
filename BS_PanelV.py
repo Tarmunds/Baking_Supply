@@ -1,6 +1,6 @@
 import bpy
 
-class BAKINGSUPPLY_Panel(bpy.types.Panel):
+class BAKINGSUPPLY_PanelGeneral(bpy.types.Panel):
     """Panel for the low and high mesh operations"""
     bl_label = "Baking Supply"
     bl_idname = "OBJECT_PT_low_mesh_panel"
@@ -85,7 +85,7 @@ class BAKINGSUPPLY_Panel(bpy.types.Panel):
 
 
 classes = (
-    BAKINGSUPPLY_Panel,
+    BAKINGSUPPLY_PanelGeneral,
 )
 
 def register():

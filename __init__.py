@@ -16,18 +16,10 @@
 #  ***** GPL LICENSE BLOCK *****
 
 # <pep8 compliant>
-
-
-if "bpy" in locals():
-    import importlib
-    importlib.reload(BS_Panel)
-    importlib.reload(BS_Visibility)
-    importlib.reload(BS_Exporter)
-    importlib.reload(BS_Namer)
-    importlib.reload(BS_Marmoset)
-
+import os
 import bpy
-from . import BS_Panel
+
+from . import BS_PanelV
 from . import BS_Visibility
 from . import BS_Exporter
 from . import BS_Namer
@@ -36,7 +28,7 @@ from . import BS_Marmoset
 bl_info = {
     "name": "Baking Supply",
     "author": "Tarmunds",
-    "version": (3, 0),
+    "version": (3, 0, 1),
     "blender": (4, 0, 0),
     "location": "View3D > Tool Shelf > Baking Supply",
     "description": "Tools to easily manage baking workflows between baking software and Blender",
@@ -44,6 +36,21 @@ bl_info = {
     "tracker_url": "https://github.com/Tarmunds/Baking_Supply/issues",  
     "category": "Object",
 }
+
+class BAKINGSUPPLY_Preferences(bpy.types.AddonPreferences):
+    """Preferences panel for Baking Supply addon."""
+    bl_idname = __package__
+
+    marmoset_path: bpy.props.StringProperty(
+        name="Marmoset Toolbag Path",
+        default=r"C:\\Program Files\\Marmoset\\Toolbag 5\\Toolbag.exe",
+        subtype='FILE_PATH'
+    )
+
+    def draw(self, context):
+        layout = self.layout
+        layout.label(text="Marmoset Toolbag Path:")
+        layout.prop(self, "marmoset_path", text="")
 
 classes = (
     BS_Visibility.BAKINGSUPPLY_ShowLow,
@@ -55,8 +62,9 @@ classes = (
     BS_Namer.BAKINGSUPPLY_SwitchSuffix,
     BS_Namer.BAKINGSUPPLY_AddSuffix,
     BS_Namer.BAKINGSUPPLY_TransferName,
-    BS_Panel.BAKINGSUPPLY_Panel,
+    BS_PanelV.BAKINGSUPPLY_PanelGeneral,
     BS_Marmoset.BAKINGSUPPLY_ExportAndLaunchMarmoset,
+    BAKINGSUPPLY_Preferences,
 )
 
 def register():
@@ -74,15 +82,15 @@ def register():
         description="Toggle the display of export path options",
         default=False
     )
-    bpy.types.Preferences.marmoset_path = bpy.props.StringProperty(
-        name="Marmoset Toolbag Path",
-        default=r"C:\Program Files\Marmoset\Toolbag 5\Toolbag.exe",
-        subtype='FILE_PATH'
-    )
-
-    # Check if Marmoset exists at the default path
-    if not os.path.exists(bpy.context.preferences.marmoset_path):
-        print("WARNING: Marmoset Toolbag executable not found! Set the correct path in Preferences.")
+    
+    # Ensure preferences are loaded correctly
+    addon_prefs = bpy.context.preferences.addons.get(__package__)
+    if addon_prefs:
+        marmoset_path = addon_prefs.preferences.marmoset_path
+        if not os.path.exists(marmoset_path):
+            print(f"WARNING: Marmoset Toolbag executable not found at {marmoset_path}! Set the correct path in Preferences.")
+    else:
+        print("WARNING: Baking Supply addon preferences not found.")
 
 def unregister():
     for c in reversed(classes):
@@ -91,7 +99,6 @@ def unregister():
     del bpy.types.Scene.appelation
     del bpy.types.Scene.mesh_path
     del bpy.types.Scene.show_path_options
-    del bpy.types.Preferences.marmoset_path
 
 if __name__ == '__main__':
     register()
