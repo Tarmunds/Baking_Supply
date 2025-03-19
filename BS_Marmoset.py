@@ -11,11 +11,11 @@ class BAKINGSUPPLY_ExportAndLaunchMarmoset(bpy.types.Operator):
     def execute(self, context):
         scene = context.scene
         addon_prefs = bpy.context.preferences.addons.get(__package__)
-        
+
         if not addon_prefs:
             self.report({'ERROR'}, "Failed to retrieve Baking Supply addon preferences.")
             return {'CANCELLED'}
-        
+
         marmoset_path = addon_prefs.preferences.marmoset_path
 
         if not marmoset_path or not os.path.exists(marmoset_path):
@@ -26,42 +26,100 @@ class BAKINGSUPPLY_ExportAndLaunchMarmoset(bpy.types.Operator):
             self.report({'ERROR'}, "Appellation cannot be empty. Please provide a name.")
             return {'CANCELLED'}
 
+        addon_folder = os.path.dirname(os.path.abspath(__file__))
+        asset_preset_path = os.path.join(addon_folder, "Tarmunds_Asset.tbbake")
+        tileable_preset_path = os.path.join(addon_folder, "Tarmunds_Tileable.tbbake")
+
         export_dir = scene.mesh_path.strip() if scene.mesh_path.strip() else os.path.dirname(bpy.data.filepath)
         high_fbx = os.path.abspath(os.path.join(export_dir, f"{scene.appelation}_high.fbx"))
         low_fbx = os.path.abspath(os.path.join(export_dir, f"{scene.appelation}_low.fbx"))
 
-        # Run Export Operators
-        bpy.ops.object.export_selected_operator_high()
-        bpy.ops.object.export_selected_operator_low()
+        high_selected = any(obj for obj in context.selected_objects if "_high" in obj.name)
+        low_selected = any(obj for obj in context.selected_objects if "_low" in obj.name)
 
-        # Ensure paths are properly formatted
-        high_fbx_safe = high_fbx.replace("\\", "\\\\")
-        low_fbx_safe = low_fbx.replace("\\", "\\\\")
+        if not high_selected and not low_selected:
+            self.report({'ERROR'}, "No selected objects with '_high' or '_low' in their names.")
+            return {'CANCELLED'}
 
-        # Create a temporary Marmoset Python script
+        if high_selected:
+            bpy.ops.object.export_selected_operator_high()
+        if low_selected:
+            bpy.ops.object.export_selected_operator_low()
+
+        high_fbx_safe = high_fbx.replace("\\", "\\\\") if high_selected else None
+        low_fbx_safe = low_fbx.replace("\\", "\\\\") if low_selected else None
+        asset_preset_safe = asset_preset_path.replace("\\", "\\\\")
+        tileable_preset_safe = tileable_preset_path.replace("\\", "\\\\")
+
+        output_path = os.path.join(
+            scene.mesh_path.strip() or scene.BS_BakePath.strip() or os.path.dirname(bpy.data.filepath),
+            f"{scene.appelation.strip()}.{scene.BS_FileFormat}"
+        ).replace("/", "\\")  # Ensure backslashes
+
+
+        output_bits = 8
+        output_samples = scene.BS_Sample
+        output_width = scene.BS_ResX
+        output_height = scene.BS_ResY
+        output_single_psd = scene.BS_SinglePSD
+        use_preset = scene.BS_UsePreset
+        preset = "ASSETS" if scene.BS_Preset == "ASSETS" else "TILEABLE"
+        NormalDirection = False if scene.BS_NormalDirection == "OPENGL" else True
+        quickbake = scene.BS_DirectBake
+
         marmoset_script = tempfile.NamedTemporaryFile(delete=False, suffix=".py").name
 
         with open(marmoset_script, "w") as script_file:
-            script_file.write(f"""import mset
+            script_file.write(f"""
+import mset
 
-def main():
-    mset.newScene()
-    bake_project = mset.BakerObject()
-    ModelLow = "{low_fbx_safe}"
-    ModelHigh = "{high_fbx_safe}"
-    bake_project.importModel(ModelHigh)
-    bake_project.importModel(ModelLow)
-    print("Marmoset bake project created and models loaded.")
+mset.newScene()
+baker = mset.BakerObject()
 
-main()
+{f'baker.importModel(r"{low_fbx_safe}")' if low_selected else ''}
+{f'baker.importModel(r"{high_fbx_safe}")' if high_selected else ''}
+
+baker.outputPath = r"{output_path}"
+baker.outputBits = {output_bits}
+baker.outputSamples = {output_samples}
+baker.edgePadding = "Moderate"
+baker.outputSoften = 0
+baker.useHiddenMeshes = True
+baker.ignoreTransforms = False
+baker.smoothCage = True
+baker.ignoreBackfaces = True
+baker.tileMode = 0
+baker.outputSinglePsd = {output_single_psd}
+
+baker.outputWidth = {output_width}
+baker.outputHeight = {output_height}
+
+if {use_preset}:
+    if "{preset}" == "ASSETS":
+        baker.loadPreset(r"{asset_preset_safe}")
+    elif "{preset}" == "TILEABLE":
+        baker.loadPreset(r"{tileable_preset_safe}")
+
+normal_map = None
+for map in baker.getAllMaps():
+    if isinstance(map, mset.NormalBakerMap):  # Check class type instead of `type` attribute
+        normal_map = map
+        break
+
+if normal_map:
+    normal_map.flipY = {NormalDirection}
+
+print("Marmoset bake project created and models loaded.")
+
+if {quickbake}:
+    baker.bake()
+    baker.applyPreviewMaterial()
 """)
 
         subprocess.Popen([marmoset_path, "-py", marmoset_script], shell=True)
-
         self.report({'INFO'}, "Marmoset Toolbag launched and setup.")
         return {'FINISHED'}
 
-# Register the new operator
 def register():
     bpy.utils.register_class(BAKINGSUPPLY_ExportAndLaunchMarmoset)
 
