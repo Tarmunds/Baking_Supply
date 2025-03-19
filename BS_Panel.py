@@ -17,12 +17,12 @@ class BAKINGSUPPLY_Panel(bpy.types.Panel):
         row.label(text="Visibility :")
 
         row1 = box.row()
-        row1.operator("object.hide_high_meshes", text="Hide High")
-        row1.operator("object.hide_low_meshes", text="Hide Low")
+        row1.operator("object.bs_hide_high_meshes", text="Hide High")
+        row1.operator("object.bs_hide_low_meshes", text="Hide Low")
 
         sub_row = box.row()
-        sub_row.operator("object.show_high_meshes", text="Show High")
-        sub_row.operator("object.show_low_meshes", text="Show Low")
+        sub_row.operator("object.bs_show_high_meshes", text="Show High")
+        sub_row.operator("object.bs_show_low_meshes", text="Show Low")
 
         # Separator
         self.layout.row().separator()
@@ -30,11 +30,11 @@ class BAKINGSUPPLY_Panel(bpy.types.Panel):
         col = layout.column(align=True)
         row = layout.row()
         row = col.row(align=True)
-        row.operator("object.add_suffix", text="Add _high").rename_type = "high"
-        row.operator("object.add_suffix", text="Add _low").rename_type = "low"
+        row.operator("object.bs_add_suffix", text="Add _high").rename_type = "high"
+        row.operator("object.bs_add_suffix", text="Add _low").rename_type = "low"
 
-        col.operator("object.switch_suffix", text="High <> Low")
-        col.operator("object.transfer_name", text="Transfer Name")
+        col.operator("object.bs_switch_suffix", text="High <> Low")
+        col.operator("object.bs_transfer_name_suffix", text="Transfer Name")
 
 
         # Separator
@@ -76,6 +76,12 @@ class BAKINGSUPPLY_Panel(bpy.types.Panel):
             
             row2 = box.row()
             row2.prop(scene, "mesh_path", text="")
+        
+        #marmoset export
+        self.layout.row().separator()
+        row = layout.row()
+        row.scale_y = 2
+        row.operator("object.bs_export_and_launch_marmoset", text="Export & Launch Marmoset", icon='MONKEY')
 
 
 classes = (

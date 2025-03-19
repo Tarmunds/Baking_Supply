@@ -5,7 +5,7 @@ import bpy
 #show low
 class BAKINGSUPPLY_ShowLow(bpy.types.Operator):
     """Operator to show or hide meshes with '_low' in their name"""
-    bl_idname = "object.show_low_meshes"
+    bl_idname = "object.bs_show_low_meshes"
     bl_label = "Show Low"
     
     def execute(self, context):
@@ -18,7 +18,7 @@ class BAKINGSUPPLY_ShowLow(bpy.types.Operator):
 #Hide low
 class BAKINGSUPPLY_HideLow(bpy.types.Operator):
     """Operator to hide meshes with '_low' in their name"""
-    bl_idname = "object.hide_low_meshes"
+    bl_idname = "object.bs_hide_low_meshes"
     bl_label = "Hide Low"
     
     def execute(self, context):
@@ -31,7 +31,7 @@ class BAKINGSUPPLY_HideLow(bpy.types.Operator):
 #show High
 class BAKINGSUPPLY_ShowHigh(bpy.types.Operator):
     """Operator to show or hide meshes with '_high' in their name"""
-    bl_idname = "object.show_high_meshes"
+    bl_idname = "object.bs_show_high_meshes"
     bl_label = "Show High"
     
     def execute(self, context):
@@ -44,7 +44,7 @@ class BAKINGSUPPLY_ShowHigh(bpy.types.Operator):
 #Hide high
 class BAKINGSUPPLY_HideHigh(bpy.types.Operator):
     """Operator to hide meshes with '_high' in their name"""
-    bl_idname = "object.hide_high_meshes"
+    bl_idname = "object.bs_hide_high_meshes"
     bl_label = "Hide High"
     
     def execute(self, context):
@@ -56,7 +56,7 @@ class BAKINGSUPPLY_HideHigh(bpy.types.Operator):
 #Hide high
 class BAKINGSUPPLY_HideHigh(bpy.types.Operator):
     """Operator to hide meshes with '_high' in their name"""
-    bl_idname = "object.hide_high_meshes"
+    bl_idname = "object.bs_hide_high_meshes"
     bl_label = "Hide High"
     
     def execute(self, context):
