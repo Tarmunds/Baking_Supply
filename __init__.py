@@ -16,14 +16,11 @@
 #  ***** GPL LICENSE BLOCK *****
 
 # <pep8 compliant>
-import os
 import bpy
+import importlib
+import sys
+import os
 
-from . import BS_PanelV
-from . import BS_Visibility
-from . import BS_Exporter
-from . import BS_Namer
-from . import BS_Marmoset
 
 bl_info = {
     "name": "Baking Supply",
@@ -36,6 +33,34 @@ bl_info = {
     "tracker_url": "https://github.com/Tarmunds/Baking_Supply/issues",  
     "category": "Object",
 }
+
+submodules = [
+    "BS_PanelV",
+    "BS_Visibility",
+    "BS_Exporter",
+    "BS_Namer",
+    "BS_Marmoset",
+]
+
+def reload_modules():
+    for submodule in submodules:
+        full_name = f"{__package__}.{submodule}"  # Construct the full module name
+
+        if full_name in sys.modules:
+            importlib.reload(sys.modules[full_name])  # Reload if already loaded
+            print(f"Reloaded: {full_name}")
+        else:
+            __import__(full_name)  # Import normally
+            print(f"Imported: {full_name}")
+
+reload_modules()
+
+from . import BS_PanelV
+from . import BS_Visibility
+from . import BS_Exporter
+from . import BS_Namer
+from . import BS_Marmoset
+
 
 
 def update_mesh_path(self, context):
