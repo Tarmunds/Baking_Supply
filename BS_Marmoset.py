@@ -101,8 +101,6 @@ if {use_preset}:
         baker.loadPreset(r"{asset_preset_safe}")
     elif "{preset}" == "TILEABLE":
         baker.loadPreset(r"{tileable_preset_safe}")
-else:
-    baker.loadPreset(r"%appdata%\Local\Marmoset Toolbag 5\baker\Default.tbbake")
 
 normal_map = None
 for map in baker.getAllMaps():

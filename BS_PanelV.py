@@ -107,7 +107,7 @@ class BAKINGSUPPLY_PanelGeneral(bpy.types.Panel):
             col.prop(scene, "BS_Sample", text="Sample")
             col = box.colum()
             col.sclae_y = 1.3
-            col.enabled = not scene.BS_SinglePSD
+            #col.enabled = not scene.BS_SinglePSD
             col.prop(scene, "BS_FileFormat", text="File Format")
 
             col = box.column(align=True)
