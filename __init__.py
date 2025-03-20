@@ -28,7 +28,7 @@ from . import BS_Marmoset
 bl_info = {
     "name": "Baking Supply",
     "author": "Tarmunds",
-    "version": (3, 5),
+    "version": (3, 7, ),
     "blender": (4, 2, 0),
     "location": "View3D > Tool Shelf > Baking Supply",
     "description": "Tools to easily manage baking workflows between Marmoset Toolbag and Blender",
@@ -42,6 +42,41 @@ def update_mesh_path(self, context):
     if self.mesh_path:
         self.mesh_path = os.path.abspath(bpy.path.abspath(self.mesh_path))
 
+def update_single_psd(self, context):
+    if self.BS_SinglePSD:  # Only update when enabling
+        self.BS_FileFormat = "psd"
+
+def update_custompreset(self, context):
+    """Update function for BS_Preset to ensure the custom preset path is set correctly."""
+    addon_prefs = bpy.context.preferences.addons.get(__package__)
+    
+    if not addon_prefs:
+        context.window_manager.popup_menu(
+            lambda self, context: self.layout.label(text="Addon preferences not found."),
+            title="Error",
+            icon='ERROR'
+        )
+        return
+
+    custompreset_path = addon_prefs.preferences.custompreset_path
+
+    # Handle empty or deleted path
+    if self.BS_Preset == "CUSTOM" and (not custompreset_path or custompreset_path.strip() == ""):
+        context.window_manager.popup_menu(
+            lambda self, context: self.layout.label(text="Custom preset path is empty. Set one in the addon preferences."),
+            title="Error",
+            icon='ERROR'
+        )
+        self.BS_Preset = "ASSETS"
+
+def update_format(self, context):
+    if self.BS_FileFormat == "targa":
+        self.BS_PixelDepth = "8Bits"
+
+def update_depth(self,contex):
+    if self.BS_PixelDepth == "16Bits" and self.BS_FileFormat == "targa":
+        self.BS_FileFormat = "png"
+
 class BAKINGSUPPLY_Preferences(bpy.types.AddonPreferences):
     """Preferences panel for Baking Supply addon."""
     bl_idname = __package__
@@ -52,11 +87,19 @@ class BAKINGSUPPLY_Preferences(bpy.types.AddonPreferences):
         subtype='FILE_PATH'
     )
 
+    custompreset_path: bpy.props.StringProperty(
+        name="Custom Preset Path",
+        default="",
+        subtype='FILE_PATH'
+    )
+
     def draw(self, context):
         layout = self.layout
         layout.label(text="Marmoset Toolbag Path:")
         layout.prop(self, "marmoset_path", text="")
 
+        layout.label(text="Custom Preset Path")
+        layout.prop(self, "custompreset_path", text="")
 
 BS_ResX = [
     ("128", "128", "Description for option 1"),
@@ -93,12 +136,12 @@ BS_FileFormat = [
 BS_Preset = [
     ("ASSETS", "Assets", "Description for option 1"),
     ("TILEABLE", "Tileable", "Description for option 1"),
+    ("CUSTOM", "Custom", "Description for option 1"),
 ]
 BS_Depth = [
     ("8Bits", "8 Bits", "Description for option 1"),
     ("16Bits", "16 Bits", "Description for option 1"),
 ]
-
 
 
 
@@ -173,23 +216,26 @@ def register():
         name="File Format",
         description="Set the format of the output files, overide by the SIngle Layered PSD",
         items=BS_FileFormat,
-        default="png"
+        default="png",
+        update=update_format
     )
     bpy.types.Scene.BS_Preset = bpy.props.EnumProperty(
         name="Preset",
         description="Select the Tarmunds premade preset for the maps",
         items=BS_Preset,
-        default="ASSETS"
+        default="ASSETS",
+        update=update_custompreset
     )
 
     bpy.types.Scene.BS_SinglePSD = bpy.props.BoolProperty(
         name="Single PSD",
         description="Toggle the output of a single layered PSD, with all the baked map within it",
-        default=False
+        default=False,
+        update=update_single_psd
     )
     bpy.types.Scene.BS_UsePreset = bpy.props.BoolProperty(
-        name="Use Tarmunds Preset",
-        description="Toggle the option to push map preset made by Tarmunds",
+        name="Use Povided Preset",
+        description="Toggle the option to push provided map preset made by Tarmunds",
         default=False
     )
 
@@ -218,7 +264,7 @@ def register():
         default=True
     )
     bpy.types.Scene.BS_BakeProperities = bpy.props.BoolProperty(
-        name="Send Properities",
+        name="Show Properities",
         description="Show Bake properities",
         default=False
     )
@@ -235,7 +281,8 @@ def register():
     name="Pixel Depth",
     description="Amount of Pixel Depth Per Channel",
     items=BS_Depth,
-    default="8Bits"
+    default="8Bits",
+    update=update_depth
     )
 
 
@@ -263,7 +310,6 @@ def unregister():
     del bpy.types.Scene.BS_SendProperities
     del bpy.types.Scene.BS_BakeProperities
     del bpy.types.Scene.BS_NormalDirection
-    del bpy.types.Scene.BS_PixelDepth
 
 if __name__ == '__main__':
     register()

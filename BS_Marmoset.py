@@ -17,6 +17,7 @@ class BAKINGSUPPLY_ExportAndLaunchMarmoset(bpy.types.Operator):
             return {'CANCELLED'}
 
         marmoset_path = addon_prefs.preferences.marmoset_path
+        custompreset_path = addon_prefs.preferences.custompreset_path
 
         if not marmoset_path or not os.path.exists(marmoset_path):
             self.report({'ERROR'}, f"Marmoset Toolbag not found at: {marmoset_path}. Please set the correct path in Preferences.")
@@ -50,6 +51,7 @@ class BAKINGSUPPLY_ExportAndLaunchMarmoset(bpy.types.Operator):
         low_fbx_safe = low_fbx.replace("\\", "\\\\") if low_selected else None
         asset_preset_safe = asset_preset_path.replace("\\", "\\\\")
         tileable_preset_safe = tileable_preset_path.replace("\\", "\\\\")
+        custom_preset_safe = custompreset_path.replace("\\", "\\\\")
 
         output_path = os.path.join(
             scene.mesh_path.strip() or scene.BS_BakePath.strip() or os.path.dirname(bpy.data.filepath),
@@ -101,6 +103,10 @@ if {use_preset}:
         baker.loadPreset(r"{asset_preset_safe}")
     elif "{preset}" == "TILEABLE":
         baker.loadPreset(r"{tileable_preset_safe}")
+    elif "{preset}" == "CUSTOM":
+        baker.loadPreset(r"{custom_preset_safe}")
+#else:
+#    baker.loadPreset(r"%appdata%\Local\Marmoset Toolbag 5\baker\Default.tbbake")
 
 normal_map = None
 for map in baker.getAllMaps():
@@ -108,8 +114,19 @@ for map in baker.getAllMaps():
         normal_map = map
         break
 
+materials = mset.findNodes(type="Material")
+# Find the material named "Default"
+default_material = next((mat for mat in materials if mat.name == "Default"), None)
+
+
 if normal_map:
     normal_map.flipY = {NormalDirection}
+    if default_material:
+        default_material.setProperty("normalFlipY", True)
+        print("Flip Y for normals enabled on Default material.")
+    else:
+        print("Default material not found.")
+
 
 print("Marmoset bake project created and models loaded.")
 

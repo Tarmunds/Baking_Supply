@@ -105,16 +105,16 @@ class BAKINGSUPPLY_PanelGeneral(bpy.types.Panel):
             col.prop(scene, "BS_ResX", text="Res X")
             col.prop(scene, "BS_ResY", text="Res Y")
             col.prop(scene, "BS_Sample", text="Sample")
-            col = box.colum()
-            col.sclae_y = 1.3
-            #col.enabled = not scene.BS_SinglePSD
+            col = box.column()
+            col.scale_y = 1.3
+            col.enabled = not scene.BS_SinglePSD
             col.prop(scene, "BS_FileFormat", text="File Format")
 
             col = box.column(align=True)
             col.scale_y = 1
             col.prop(scene, "BS_SinglePSD", text="Single Layered PSD file")
 
-### switch
+            ### switch
             row = box.row()
             row.scale_y = 1
             row.prop(scene, "BS_NormalDirection", text="OpenGL", toggle=True, expand=True)
@@ -122,7 +122,7 @@ class BAKINGSUPPLY_PanelGeneral(bpy.types.Panel):
             row.scale_y = 1
             row.prop(scene, "BS_PixelDepth", text="8Bits", toggle=True, expand=True)
 
-### path setup
+            ### path setup
             col = box.column(align=True)
             col.label(text="Baked Texture Path :")
             col.prop(scene, "BS_PathBakeAsMeshes", text="Use same path as the mesh")
@@ -133,7 +133,7 @@ class BAKINGSUPPLY_PanelGeneral(bpy.types.Panel):
 
             col = box.column(align=True)
             col.scale_y = 1
-            col.prop(scene, "BS_UsePreset", text="Use Tarmunds Map Preset")
+            col.prop(scene, "BS_UsePreset", text="Use provided Map Preset")
 
             col = box.column(align=True)
             col.scale_y = 1.3
