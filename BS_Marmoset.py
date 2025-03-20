@@ -66,6 +66,7 @@ class BAKINGSUPPLY_ExportAndLaunchMarmoset(bpy.types.Operator):
         preset = "ASSETS" if scene.BS_Preset == "ASSETS" else "TILEABLE"
         NormalDirection = False if scene.BS_NormalDirection == "OPENGL" else True
         quickbake = scene.BS_DirectBake
+        output_depth = 8 if scene.BS_PixelDepth == "8Bits" else 16
 
         marmoset_script = tempfile.NamedTemporaryFile(delete=False, suffix=".py").name
 
@@ -90,6 +91,7 @@ baker.smoothCage = True
 baker.ignoreBackfaces = True
 baker.tileMode = 0
 baker.outputSinglePsd = {output_single_psd}
+baker.outputBits = {output_depth}
 
 baker.outputWidth = {output_width}
 baker.outputHeight = {output_height}
@@ -99,6 +101,8 @@ if {use_preset}:
         baker.loadPreset(r"{asset_preset_safe}")
     elif "{preset}" == "TILEABLE":
         baker.loadPreset(r"{tileable_preset_safe}")
+else:
+    baker.loadPreset(r"%appdata%\Local\Marmoset Toolbag 5\baker\Default.tbbake")
 
 normal_map = None
 for map in baker.getAllMaps():

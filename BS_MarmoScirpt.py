@@ -1,19 +1,14 @@
 import mset
 
-# Create new scene and baking project
 mset.newScene()
 baker = mset.BakerObject()
 
-# Load high and low models
-ModelLow = r"{low_fbx_safe}"
-ModelHigh = r"{high_fbx_safe}"
-baker.importModel(ModelHigh)
-baker.importModel(ModelLow)
+{f'baker.importModel(r"{low_fbx_safe}")' if low_selected else ''}
+{f'baker.importModel(r"{high_fbx_safe}")' if high_selected else ''}
 
-# Configure baking settings
-baker.outputPath = r"{scene.appelation.strip()}.{scene.BS_FileFormat}"
-baker.outputBits = 8
-baker.outputSamples = {scene.BS_Sample}
+baker.outputPath = r"{output_path}"
+baker.outputBits = {output_bits}
+baker.outputSamples = {output_samples}
 baker.edgePadding = "Moderate"
 baker.outputSoften = 0
 baker.useHiddenMeshes = True
@@ -21,16 +16,42 @@ baker.ignoreTransforms = False
 baker.smoothCage = True
 baker.ignoreBackfaces = True
 baker.tileMode = 0
-baker.outputSinglePsd = {scene.BS_SinglePSD}
+baker.outputSinglePsd = {output_single_psd}
+baker.outputBits = {output_depth}
 
-# Set texture resolution
-baker.outputWidth = {scene.BS_ResX}
-baker.outputHeight = {scene.BS_ResY}
+baker.outputWidth = {output_width}
+baker.outputHeight = {output_height}
 
-# Apply preset
-if scene.BS_Preset == "ASSETS":
-    baker.loadPreset("Tarmunds_Asset.tbbake")
-elif scene.BS_Preset == "TILEABLE":
-    baker.loadPreset("Tarmunds_Tileable.tbbake")
+if {use_preset}:
+    if "{preset}" == "ASSETS":
+        baker.loadPreset(r"{asset_preset_safe}")
+    elif "{preset}" == "TILEABLE":
+        baker.loadPreset(r"{tileable_preset_safe}")
+else:
+    baker.loadPreset(r"%appdata%\Local\Marmoset Toolbag 5\baker\Default.tbbake")
+
+normal_map = None
+for map in baker.getAllMaps():
+    if isinstance(map, mset.NormalBakerMap):  # Check class type instead of `type` attribute
+        normal_map = map
+        break
+
+materials = mset.findNodes(type="Material")
+# Find the material named "Default"
+default_material = next((mat for mat in materials if mat.name == "Default"), None)
+
+
+if normal_map:
+    normal_map.flipY = {NormalDirection}
+    if default_material:
+        default_material.setProperty("normalFlipY", True)
+        print("Flip Y for normals enabled on Default material.")
+    else:
+        print("Default material not found.")
+
 
 print("Marmoset bake project created and models loaded.")
+
+if {quickbake}:
+    baker.bake()
+    baker.applyPreviewMaterial()

@@ -28,7 +28,7 @@ from . import BS_Marmoset
 bl_info = {
     "name": "Baking Supply",
     "author": "Tarmunds",
-    "version": (3, 5, ),
+    "version": (3, 5),
     "blender": (4, 2, 0),
     "location": "View3D > Tool Shelf > Baking Supply",
     "description": "Tools to easily manage baking workflows between Marmoset Toolbag and Blender",
@@ -93,6 +93,10 @@ BS_FileFormat = [
 BS_Preset = [
     ("ASSETS", "Assets", "Description for option 1"),
     ("TILEABLE", "Tileable", "Description for option 1"),
+]
+BS_Depth = [
+    ("8Bits", "8 Bits", "Description for option 1"),
+    ("16Bits", "16 Bits", "Description for option 1"),
 ]
 
 
@@ -226,7 +230,13 @@ def register():
         ("DIRECTX", "DirectX", "Use DirectX normal map format"),
     ],
     default="OPENGL"
-)
+    )
+    bpy.types.Scene.BS_PixelDepth = bpy.props.EnumProperty(
+    name="Pixel Depth",
+    description="Amount of Pixel Depth Per Channel",
+    items=BS_Depth,
+    default="8Bits"
+    )
 
 
 def unregister():
@@ -253,6 +263,7 @@ def unregister():
     del bpy.types.Scene.BS_SendProperities
     del bpy.types.Scene.BS_BakeProperities
     del bpy.types.Scene.BS_NormalDirection
+    del bpy.types.Scene.BS_PixelDepth
 
 if __name__ == '__main__':
     register()
