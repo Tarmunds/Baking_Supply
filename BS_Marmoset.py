@@ -65,7 +65,12 @@ class BAKINGSUPPLY_ExportAndLaunchMarmoset(bpy.types.Operator):
         output_height = scene.BS_ResY
         output_single_psd = scene.BS_SinglePSD
         use_preset = scene.BS_UsePreset
-        preset = "ASSETS" if scene.BS_Preset == "ASSETS" else "TILEABLE"
+        if scene.BS_Preset == "ASSETS":
+            preset = "ASSETS"
+        elif scene.BS_Preset == "TILEABLE":
+            preset = "TILEABLE"
+        elif scene.BS_Preset == "CUSTOM":
+            preset = "CUSTOM"
         NormalDirection = False if scene.BS_NormalDirection == "OPENGL" else True
         quickbake = scene.BS_DirectBake
         output_depth = 8 if scene.BS_PixelDepth == "8Bits" else 16

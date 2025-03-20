@@ -142,7 +142,7 @@ class BAKINGSUPPLY_PanelGeneral(bpy.types.Panel):
 
             col = box.column(align=True)
             col.scale_y = 1.5
-            col.prop(scene, "BS_DirectBake", text="Direct ZIZI Bake", toggle=True)
+            col.prop(scene, "BS_DirectBake", text="Direct Bake", toggle=True)
 
 
 
