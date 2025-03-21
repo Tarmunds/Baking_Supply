@@ -1,4 +1,5 @@
 import bpy
+import re
 
 # Operator to replace "_high" with "_low" and vice versa
 class BAKINGSUPPLY_SwitchSuffix(bpy.types.Operator):
@@ -6,14 +7,15 @@ class BAKINGSUPPLY_SwitchSuffix(bpy.types.Operator):
     bl_label = "High <> Low"
 
     def execute(self, context):
+        pattern = re.compile(r'(_high|_low)', re.IGNORECASE)
+
+        def replace_case(match):
+            text = match.group(1).lower()
+            return '_low' if text == '_high' else '_high'
+
         for obj in bpy.context.selected_objects:
-            name = obj.name
-            
-            if name.endswith("_high"):
-                obj.name = name[:-5] + "_low"
-            elif name.endswith("_low"):
-                obj.name = name[:-4] + "_high"
-            
+            obj.name = pattern.sub(replace_case, obj.name)
+
         return {'FINISHED'}
 
 # Operator to add "_high" or "_low" to object names, preventing duplicate suffixes

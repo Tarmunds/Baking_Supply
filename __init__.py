@@ -25,7 +25,7 @@ import os
 bl_info = {
     "name": "Baking Supply",
     "author": "Tarmunds",
-    "version": (3, 7, 3),
+    "version": (3, 7, 5),
     "blender": (4, 2, 0),
     "location": "View3D > Tool Shelf > Baking Supply",
     "description": "Tools to easily manage baking workflows between Marmoset Toolbag and Blender",
@@ -62,6 +62,8 @@ from . import BS_Namer
 from . import BS_Marmoset
 
 
+def update_res(self,contet):
+    self.BS_ResY = self.BS_ResX
 
 def update_mesh_path(self, context):
     if self.mesh_path:
@@ -223,7 +225,8 @@ def register():
         name="X resolution",
         description="Select the X resolution of the baked map",
         items=BS_ResX,
-        default="2048"
+        default="2048",
+        update=update_res
     )
     bpy.types.Scene.BS_ResY = bpy.props.EnumProperty(
         name="Y resolution",
@@ -324,7 +327,6 @@ def unregister():
     del bpy.types.Scene.BS_ResY
     del bpy.types.Scene.BS_Sample
     del bpy.types.Scene.BS_FileFormat
-    del bpy.types.Scene.BS_FileFormat
     del bpy.types.Scene.BS_Preset
 
     del bpy.types.Scene.BS_SinglePSD
@@ -335,6 +337,7 @@ def unregister():
     del bpy.types.Scene.BS_SendProperities
     del bpy.types.Scene.BS_BakeProperities
     del bpy.types.Scene.BS_NormalDirection
+    del bpy.types.Scene.BS_PixelDepth
 
 if __name__ == '__main__':
     register()
