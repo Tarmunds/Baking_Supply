@@ -53,10 +53,18 @@ class BAKINGSUPPLY_ExportAndLaunchMarmoset(bpy.types.Operator):
         tileable_preset_safe = tileable_preset_path.replace("\\", "\\\\")
         custom_preset_safe = custompreset_path.replace("\\", "\\\\")
 
+        if scene.BS_PathBakeAsMeshes:
+            base_path = scene.mesh_path.strip()
+        else:
+            base_path = scene.BS_BakePath.strip()
+
+        if not base_path:
+            base_path = os.path.dirname(bpy.data.filepath)
+
         output_path = os.path.join(
-            scene.mesh_path.strip() or scene.BS_BakePath.strip() or os.path.dirname(bpy.data.filepath),
+            base_path,
             f"{scene.appelation.strip()}.{scene.BS_FileFormat}"
-        ).replace("/", "\\")  # Ensure backslashes
+        ).replace("/", "\\")
 
 
         output_bits = 8
@@ -119,7 +127,11 @@ for map in baker.getAllMaps():
         normal_map = map
         break
 
-materials = mset.findNodes(type="Material")
+all_objects = mset.getAllObjects()
+
+# Filter materials
+materials = [obj for obj in all_objects if isinstance(obj, mset.Material)]
+
 # Find the material named "Default"
 default_material = next((mat for mat in materials if mat.name == "Default"), None)
 

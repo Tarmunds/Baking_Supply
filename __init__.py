@@ -25,7 +25,7 @@ import os
 bl_info = {
     "name": "Baking Supply",
     "author": "Tarmunds",
-    "version": (3, 7, 5),
+    "version": (3, 7, 6),
     "blender": (4, 2, 0),
     "location": "View3D > Tool Shelf > Baking Supply",
     "description": "Tools to easily manage baking workflows between Marmoset Toolbag and Blender",
