@@ -25,8 +25,8 @@ import os
 bl_info = {
     "name": "Baking Supply",
     "author": "Tarmunds",
-    "version": (3, 7, 6),
-    "blender": (4, 2, 0),
+    "version": (3, 8, 0),
+    "blender": (4, 5, 0),
     "location": "View3D > Tool Shelf > Baking Supply",
     "description": "Tools to easily manage baking workflows between Marmoset Toolbag and Blender",
     "wiki_url": "https://github.com/Tarmunds/Baking_Supply", 
@@ -67,7 +67,14 @@ def update_res(self,contet):
 
 def update_mesh_path(self, context):
     if self.mesh_path:
-        self.mesh_path = os.path.abspath(bpy.path.abspath(self.mesh_path))
+        abspath = bpy.path.abspath(self.mesh_path)
+        self["mesh_path"] = abspath
+
+def update_bake_path(self, context):
+    if self.BS_BakePath:
+        abspath = bpy.path.abspath(self.BS_BakePath)
+        self["BS_BakePath"] = abspath
+        
 
 def update_single_psd(self, context):
     if self.BS_SinglePSD:  # Only update when enabling
@@ -201,8 +208,7 @@ def register():
         default="", 
         maxlen=1024, 
         subtype='DIR_PATH',
-        update=lambda self, context: setattr(
-            self, "mesh_path", os.path.abspath(bpy.path.abspath(getattr(self, "mesh_path")))),
+        update=update_mesh_path,
     )
     
     bpy.types.Scene.show_path_options = bpy.props.BoolProperty(
@@ -277,8 +283,7 @@ def register():
         default="",
         maxlen=1024,
         subtype='DIR_PATH',
-        update=lambda self, context: setattr(
-            self, "BS_BakePath", os.path.abspath(bpy.path.abspath(getattr(self, "BS_BakePath"))))
+        update=update_bake_path,
     )
 
     bpy.types.Scene.BS_DirectBake = bpy.props.BoolProperty(
