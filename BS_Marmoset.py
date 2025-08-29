@@ -105,7 +105,7 @@ baker.ignoreTransforms = False
 baker.smoothCage = True
 baker.ignoreBackfaces = True
 baker.tileMode = 0
-baker.outputSinglePsd = {output_single_psd}
+#baker.outputSinglePsd = {output_single_psd}
 baker.outputBits = {output_depth}
 
 baker.outputWidth = {output_width}

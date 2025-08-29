@@ -16,7 +16,7 @@ baker.ignoreTransforms = False
 baker.smoothCage = True
 baker.ignoreBackfaces = True
 baker.tileMode = 0
-baker.outputSinglePsd = {output_single_psd}
+#baker.outputSinglePsd = {output_single_psd}
 baker.outputBits = {output_depth}
 
 baker.outputWidth = {output_width}
@@ -27,8 +27,10 @@ if {use_preset}:
         baker.loadPreset(r"{asset_preset_safe}")
     elif "{preset}" == "TILEABLE":
         baker.loadPreset(r"{tileable_preset_safe}")
-else:
-    baker.loadPreset(r"%appdata%\Local\Marmoset Toolbag 5\baker\Default.tbbake")
+    elif "{preset}" == "CUSTOM":
+        baker.loadPreset(r"{custom_preset_safe}")
+#else:
+#    baker.loadPreset(r"%appdata%\Local\Marmoset Toolbag 5\baker\Default.tbbake")
 
 normal_map = None
 for map in baker.getAllMaps():
@@ -36,7 +38,11 @@ for map in baker.getAllMaps():
         normal_map = map
         break
 
-materials = mset.findNodes(type="Material")
+all_objects = mset.getAllObjects()
+
+# Filter materials
+materials = [obj for obj in all_objects if isinstance(obj, mset.Material)]
+
 # Find the material named "Default"
 default_material = next((mat for mat in materials if mat.name == "Default"), None)
 

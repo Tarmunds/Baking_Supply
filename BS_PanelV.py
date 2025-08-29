@@ -110,9 +110,9 @@ class BAKINGSUPPLY_PanelGeneral(bpy.types.Panel):
             col.enabled = not scene.BS_SinglePSD
             col.prop(scene, "BS_FileFormat", text="File Format")
 
-            col = box.column(align=True)
-            col.scale_y = 1
-            col.prop(scene, "BS_SinglePSD", text="Single Layered PSD file")
+            #col = box.column(align=True)
+            #col.scale_y = 1
+            #col.prop(scene, "BS_SinglePSD", text="Single Layered PSD file")
 
             ### switch
             row = box.row()
